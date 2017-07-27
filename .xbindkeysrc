@@ -1,18 +1,20 @@
-## Make sure scripts are added to PATH
+# Change to path to scripts
 
-"sudo brightness-increase.sh"
+
+# Need to make brightness file writable
+"brightness-increase.sh"
    XF86MonBrightnessUp
 
-"sudo brightness-decrease.sh"
+"brightness-decrease.sh"
    XF86MonBrightnessDown
 
-"sudo volume-increase.sh"
+"volume-increase.sh"
    XF86AudioRaiseVolume
 
-"sudo volume-decrease.sh"
+"volume-decrease.sh"
    XF86AudioLowerVolume
 
-"sudo volume-mute.sh"
+"volume-mute.sh"
    XF86AudioMute
 
 "setup_external_monitor.sh"
