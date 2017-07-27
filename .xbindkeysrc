@@ -1,0 +1,25 @@
+## Make sure scripts are added to PATH
+
+"sudo brightness-increase.sh"
+   XF86MonBrightnessUp
+
+"sudo brightness-decrease.sh"
+   XF86MonBrightnessDown
+
+"sudo volume-increase.sh"
+   XF86AudioRaiseVolume
+
+"sudo volume-decrease.sh"
+   XF86AudioLowerVolume
+
+"sudo volume-mute.sh"
+   XF86AudioMute
+
+"setup_external_monitor.sh"
+   m:0x40 + c:40
+
+"screenshot.sh"
+   m:0x0 + c:107
+
+"screenshot-region.sh"
+   m:0x40 + c:107

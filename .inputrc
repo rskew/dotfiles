@@ -1,0 +1,3 @@
+set editing-mode vi
+"\C-x\C-r": re-read-init-file
+set bell-style none
