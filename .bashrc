@@ -26,11 +26,24 @@ function pdfpextr()
 }
 
 
+
 # Matlab command line only plz
 alias matlab="matlab -softwareopengl -nodesktop"
+
+# Path to ngrok
+export PATH=$HOME/builds/pkg/ngrok/usr/bin:${PATH}
 
 # Path to scripts
 export PATH=$HOME/documents/code/scripts:${PATH}
 
 # Bell off I think
 xset b off
+
+alias extempore="extempore --device=0 --sharedir=/opt/extempore"
+export PATH=/opt/extempore/:${PATH}
+
+alias em="emacsclient -t"
+
+alias sudo='sudo '
+
+export _JAVA_AWT_WM_NONREPARENTING=1

@@ -33,3 +33,6 @@ endfunction
 command! -bar SetupTabstops call SetupTabstops()
 
 au VimEnter * if &diff | execute 'windo set wrap' | endif
+
+nmap <F1> :echo<CR>
+imap <F1> <C-o>:echo<CR>

@@ -2,26 +2,26 @@
 
 
 # Need to make brightness file writable
-"brightness-increase.sh"
+"/home/rowan/documents/code/scripts/brightness-increase.sh"
    XF86MonBrightnessUp
 
-"brightness-decrease.sh"
+"/home/rowan/documents/code/scripts/brightness-decrease.sh"
    XF86MonBrightnessDown
 
-"volume-increase.sh"
+"/home/rowan/documents/code/scripts/volume-increase.sh"
    XF86AudioRaiseVolume
 
-"volume-decrease.sh"
+"/home/rowan/documents/code/scripts/volume-decrease.sh"
    XF86AudioLowerVolume
 
-"volume-mute.sh"
+"/home/rowan/documents/code/scripts/volume-mute.sh"
    XF86AudioMute
 
-"setup_external_monitor.sh"
+"/home/rowan/documents/code/scripts/setup_external_monitor.sh"
    m:0x40 + c:40
 
-"screenshot.sh"
+"/home/rowan/documents/code/scripts/screenshot.sh"
    m:0x0 + c:107
 
-"screenshot-region.sh"
+"/home/rowan/documents/code/scripts/screenshot-region.sh"
    m:0x40 + c:107
