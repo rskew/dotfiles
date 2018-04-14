@@ -12,6 +12,7 @@ import XMonad.Actions.NoBorders
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
+import XMonad.Hooks.SetWMName
 
 myExtraWorkspaces = [(xK_0, "0"),(xK_minus, "-"),(xK_equal, "=")]
 
@@ -29,6 +30,7 @@ main = do
       , manageHook = mWManager
       , layoutHook = mkToggle (single NBFULL) $ avoidStruts  $  layoutHook defaultConfig
       , handleEventHook = fullscreenEventHook
+      , startupHook = setWMName "LG3D"
       , logHook = dynamicLogWithPP xmobarPP
                       { ppOutput = hPutStrLn xmproc
                       , ppTitle = xmobarColor "green" "" . shorten 50
