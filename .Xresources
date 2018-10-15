@@ -1,2 +1,2 @@
-URxvt.font: xft:gallant12x22
+URxvt.font: xft:gallant12x22:size=14
 !!URxvt.font: xft:Source Code Pro
