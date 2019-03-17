@@ -1,6 +1,9 @@
-;; -*- mode: emacs-lisp -*-
-;; This file is loaded by Spacemacs at startup.
-;; It must be stored in your home directory.
+;
+;
+; - * -mode:emacs - lisp - *-
+;
+;This file is loaded by Spacemacs at startup.;
+; It must be stored in your home directory.
 
 (defun dotspacemacs/layers ()
   "Configuration Layers declaration.
@@ -31,6 +34,10 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     ruby
+     purescript
+d
+     graphviz
      csv
      javascript
      octave
@@ -43,23 +50,26 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
-     ;; auto-completion
-     ;; better-defaults
+     auto-completion
+     better-defaults
      emacs-lisp
      ;; git
      ;; markdown
-     (org :variables org-enable-github-support t)
+     ;(org :variables org-enable-github-support t)
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
-     ;; spell-checking
+     spell-checking
      ;; syntax-checking
      ;; version-control
      clojure
+     ;org
      markdown
      java
      (extra-langs :variables julia-mode matlab-mode)
      git
+     ipython-notebook
+     agda
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -77,7 +87,7 @@ values."
    ;; `used-but-keep-unused' installs only the used packages but won't uninstall
    ;; them if they become unused. `all' installs *all* packages supported by
    ;; Spacemacs and never uninstall them. (default is `used-only')
-   dotspacemacs-install-packages 'used-only
+   dotspacemacs-install-packages 'used-but-keep-unused
    dotspacemacs-additional-packages '(magithub)
    ))
 
@@ -324,24 +334,44 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;(defun configlayer/init-xclip ()
+  ;  (use-package xclip
+  ;    :defer t
+  ;    :init
+  ;    (defun copy-to-clipboard ()
+  ;      "Copies selection to x-clipboard."
+  ;      (interactive)
+  ;      (if (display-graphic-p)
+  ;          (progn
+  ;            (message "Yanked region to x-clipboard!")
+  ;            (call-interactively 'clipboard-kill-ring-save)
+  ;            )
+  ;        (if (region-active-p)
+  ;            (progn
+  ;              (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
+  ;              (message "Yanked region to clipboard!")
+  ;              (deactivate-mark))
+  ;          (message "No region active; can't yank to clipboard!")))
+  ;      )
+
+  ;    (defun paste-from-clipboard ()
+  ;      "Pastes from x-clipboard."
+  ;      (interactive)
+  ;      (if (display-graphic-p)
+  ;          (progn
+  ;            (clipboard-yank)
+  ;            (message "graphics active")
+  ;            )
+  ;        (insert (shell-command-to-string "xsel -o -b"))
+  ;        ))))
+  (xclip-mode 1)
+  ;(setq x-select-enable-clipboard t)
+  ;(setq x-select-enable-primary t)
+
   (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
+  (add-to-list 'auto-mode-alist '("\\.dot\\'" . graphvis-dot-mode))
 
   (setq clojure-enable-fancify-symbols t)
-
-  ;; use xclip to copy/paste in emacs-nox
-  (unless window-system
-    (when (getenv "DISPLAY")
-      (defun xclip-cut-function (text &optional push)
-        (with-temp-buffer
-  	(insert text)
-  	(call-process-region (point-min) (point-max) "xclip" nil 0 nil "-i" "-selection" "primary")))
-      (defun xclip-paste-function()
-        (let ((xclip-output (shell-command-to-string "xclip -o -selection primary")))
-  	(unless (string= (car kill-ring) xclip-output)
-  	  xclip-output )))
-      (setq interprogram-cut-function 'xclip-cut-function)
-      (setq interprogram-paste-function 'xclip-paste-function)
-      ))
 
   ;; bind the 'e' key to evaluate the current expression in file types
   ;; that support running an interpreter in spacemacs.
@@ -374,6 +404,92 @@ you should place your code here."
 
   ;(add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
 
+  (setq default-tab-width 4)
+
+  (require 'package)
+  (setq package-enable-at-startup nil)
+  (setq package-archives '(("org"   . "http://orgmode.org/elpa/")
+                           ("gnu"   . "http://elpa.gnu.org/packages/")
+                           ("melpa" . "https://melpa.org/packages/")))
+  (package-initialize)
+
+
+  (require 'clang-format)
+  (global-set-key (kbd "C-c C-f") 'clang-format-buffer)
+  (setq clang-format-style-option "llvm")
+
+  (defun is-cpp (filename)
+    (let ((extension (file-name-extension filename)))
+      (cond ((string-equal extension "cpp") t)
+            ((string-equal extension "h") t)
+            (t nil))))
+
+  (add-hook 'before-save-hook '(if (is-cpp buffer-file-name) (clang-format-buffer) nil))
+
+  ;; Set $DICPATH to "$HOME/Library/Spelling" for hunspell.
+  (setenv
+     "DICPATH"
+     (concat (getenv "HOME") "/usr/share/myspell/dicts"))
+  ;; Tell ispell-mode to use hunspell.
+  (setq
+     ispell-program-name
+     "/usr/bin/hunspell")
+
+  (setq py-autopep8-options '("--max-line-length=80"))
+
+  (require 'recentf)
+  (setq recentf-auto-cleanup 'never) ;; disable before we start recentf!
+  (recentf-mode 1)
+
+  (defun tramp-refresh ()
+    (interactive)
+    (recentf-cleanup)
+    (tramp-cleanup-all-buffers)
+    (tramp-cleanup-all-connections))
+
+  (require 'tramp)
+  (defun tramp-set-auto-save ()
+    (auto-save-mode -1))
+  (add-to-list 'tramp-remote-process-environment
+               (format "DISPLAY=%s" (getenv "DISPLAY")))
+
+  (load-theme 'klere t)
+
+  (custom-theme-set-faces
+   'klere
+   '(default ((t (:foreground "#ffffff" :background nil))))
+   '(font-lock-comment-face ((t (:foreground "#00cfff" :background nil))))
+   '(font-lock-doc-face ((t (:foreground "#888888"))))
+   '(font-lock-string-face ((t (:foreground "#1dfb15"))))
+   '(font-lock-function-name-face ((t (:foreground "#cf00ff"))))
+   '(font-lock-constant-face ((t (:foreground "#00ffef"))))
+   '(hl-line ((t (:background nil))))
+   '(helm-selection ((t (:background "#505050" :underline nil)))))
+
+  ;; Black background
+  ;(setq initial-frame-alist
+  ;      '((background-color . "#000000")))
+  ;(set-face-background 'default nil)
+
+  ;; Set default font
+  (set-face-attribute 'default nil
+                      ;:family "gallant12x22"
+                      ;:height 170
+                      :weight 'bold
+                      ;:width 'normal
+                      )
+
+
+  (add-hook 'purescript-mode-hook
+            (lambda ()
+              (psc-ide-mode)
+              (company-mode)
+              (flycheck-mode)
+              (turn-on-purescript-indentation)))
+
+  ;; global activation of the unicode symbol completion
+  (add-to-list 'company-backends 'company-math-symbols-unicode)
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -383,10 +499,20 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
+ '(custom-enabled-themes (quote (klere)))
+ '(custom-safe-themes
+   (quote
+    ("eedf8564559559e709f1fb7745eb5a6eaadd4f0d129cc5cb6782387d3973c919" "565aa482e486e2bdb9c3cf5bfb14d1a07c4a42cfc0dc9d6a14069e53b6435b56" default)))
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (ediprolog csv-mode magithub ghub+ apiwrap evil-magit smeargle orgit magit-gitflow magit magit-popup ghub let-alist helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-commit with-editor wolfram-mode livid-mode skewer-mode js2-refactor web-beautify simple-httpd json-mode json-snatcher json-reformat js2-mode js-doc coffee-mode thrift stan-mode scad-mode qml-mode matlab-mode julia-mode arduino-mode intero flycheck hlint-refactor hindent helm-hoogle haskell-snippets company-ghci company-ghc ghc company haskell-mode cmm-mode yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode eclim key-chord mmm-mode markdown-toc markdown-mode gh-md ox-gfm clj-refactor inflections edn multiple-cursors paredit yasnippet peg cider-eval-sexp-fu cider seq queue clojure-mode org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))))
+    (company-math rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby psci purescript-mode psc-ide unfill mwim helm-company helm-c-yasnippet fuzzy company-web web-completion-data company-tern company-statistics company-emacs-eclim company-dcd ivy flycheck-dmd-dub company-cabal company-anaconda clojure-snippets auto-yasnippet ac-ispell py-yapf xclip auto-complete websocket ein ediprolog danneskjold-theme klere-theme py-autopep8 jtags flyspell-correct-helm flyspell-correct auto-dictionary d-mode clang-format yapfify web-mode web-beautify thrift tern tagedit stan-mode smeargle slim-mode scss-mode scad-mode sass-mode qml-mode pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements ox-gfm orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mmm-mode matlab-mode markdown-toc magithub markdown-mode ghub+ apiwrap magit-gitflow livid-mode skewer-mode simple-httpd live-py-mode julia-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc intero flycheck hy-mode dash-functional htmlize hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-css-scss haskell-snippets haml-mode graphviz-dot-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md evil-magit magit magit-popup git-commit ghub treepy graphql with-editor emmet-mode eclim cython-mode csv-mode company-ghci company-ghc ghc company haskell-mode coffee-mode cmm-mode clj-refactor inflections edn multiple-cursors paredit yasnippet peg cider-eval-sexp-fu cider sesman queue clojure-mode arduino-mode anaconda-mode pythonic evil-visual-mark-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+ '(psc-ide-add-import-on-completion t t)
+ '(psc-ide-rebuild-on-save nil t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

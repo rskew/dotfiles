@@ -1,2 +1,7 @@
-URxvt.font: xft:gallant12x22:size=14
-!!URxvt.font: xft:Source Code Pro
+!!URxvt.font: xft:gallant12x22:size=14
+!!URxvt.font: xft:VCR OSD Mono:size:14
+URxvt.font: xft:Source Code Pro
+URxvt.perl-ext-common: selection-to-clipboard
+URxvt.depth: 32
+URxvt.background: rgba:0000/0000/0000/a000
+

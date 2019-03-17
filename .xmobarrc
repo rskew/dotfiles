@@ -1,8 +1,8 @@
--- to get xmonar on other screen, do
+-- to get xmobar on other screen, do
 -- xrandr --output $DISPLAY --primary
 -- usually $DISPLAY is VGA1
 
-Config { font = "xft:gallant12x22:size=13"
+Config { font = "xft:gallant12x22:size=14"
        , bgColor = "black"
        , fgColor = "grey"
        , position = BottomW L 92

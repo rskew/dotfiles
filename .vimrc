@@ -8,13 +8,11 @@ set softtabstop=4
 set expandtab
 set shiftwidth=4
 set smarttab
-colo torte
 inoremap <C-j> <Esc>
 let mapleader = " "
 nnoremap <leader>n :NERDTree
 let NERDTreeShowLineNumbers=1
 autocmd FileType nerdtree setlocal relativenumber
-source ~/.vim/plugin/extempore.vim
 set clipboard=unnamed
 set clipboard=unnamedplus
 set noerrorbells

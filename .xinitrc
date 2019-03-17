@@ -1,17 +1,14 @@
-# Swap caps lock and control :)
-xmodmap -e "clear lock" \
-        "clear control" \
-        "add control = Caps_Lock Control_L Control_R" \
-        "keycode 66 = Control_L Caps_Lock NoSymbol NoSymbol" \
-        "keycode 0x42 = Escape"
-
 xbindkeys
 
 xrdb -merge ~/.Xresources
+xmodmap ~/.Xmodmap
 
-xrandr --output VGA1 --primary
+#xrandr --output VGA1 --primary
 
-exec xautolock -time 15 -locker /home/rowan/documents/code/scripts/lock.sh -corners -000 &
+xset s off
+xset -dpms
+xset s noblank 
+#exec xautolock -time 15 -locker /home/rowan/documents/code/scripts/lock.sh -corners -000 &
 #autocutsel -fork &
 #autoctusel -selection PRIMARY -fork &
 
@@ -25,14 +22,13 @@ trayer --edge bottom \
        --tint 0x000000 \
        --height 20 \
        --monitor "primary" &
-#stalonetray --grow-gravity SE &
 
 exec nm-applet &
 exec redshift &
 
-#exec /home/rowan/.fehbg &
+feh --bg-scale ~/Pictures/jupyter_near_north_pole.jpg &
+xcompmgr -c &
 
-#exec i3
+emacs --daemon &
+
 xmonad
-
-emacs --daemon

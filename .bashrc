@@ -43,8 +43,6 @@ alias freeplane='GTK2_RC_FILES=/usr/share/themes/Adwaita-dark/gtk-2.0/gtkrc free
 alias gst='git status'
 alias gl='git log --graph --decorate --pretty=oneline --abbrev-commit'
 
-[ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
-export PATH=/opt/miniconda3/bin:${PATH}
 export PYTHONPATH=/home/rowan/silverpond/powercor/network_topology_inference/das-155:${PYTHONPATH}
 export PYTHONPATH=/home/rowan/silverpond/powercor/network_topology_inference/phase_identification:${PYTHONPATH}
 export PYTHONPATH=/home/rowan/silverpond/powercor/network_topology_inference/phase_identification/phase_id:${PYTHONPATH}
@@ -53,3 +51,9 @@ export PYTHONPATH=/home/rowan/silverpond/powercor/network_topology_inference/pha
 git-find-replace (){
     git grep -l $1 | xargs sed -i 's/'$1'/'$2'/g'
 }
+
+exec zsh
+
+export NOCONDA_PATH=$PATH
+#export PATH=/opt/miniconda3/bin:${PATH}
+#[ -f /opt/miniconda3/etc/profile.d/conda.sh ] && source /opt/miniconda3/etc/profile.d/conda.sh
