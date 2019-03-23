@@ -52,7 +52,7 @@ git-find-replace (){
     git grep -l $1 | xargs sed -i 's/'$1'/'$2'/g'
 }
 
-exec zsh
+exec fish
 
 export NOCONDA_PATH=$PATH
 #export PATH=/opt/miniconda3/bin:${PATH}

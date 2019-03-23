@@ -19,10 +19,10 @@ myExtraWorkspaces = [(xK_0, "0"),(xK_minus, "-"),(xK_equal, "=")]
 myWorkspaces = ["1","2","3","4","5","6","7","8","9"] ++ (map snd myExtraWorkspaces)
 
 main = do
-  xmproc <- spawnPipe "/usr/bin/xmobar /home/rowan/.xmobarrc"
+  xmproc <- spawnPipe "xmobar /home/rowan/.xmobarrc"
   xmonad $ withUrgencyHook NoUrgencyHook $ docks defaultConfig
       { borderWidth        = 3
-      , terminal           = "/home/rowan/documents/code/scripts/i3-shell/i3-shell.sh"
+      , terminal           = "urxvt"--"/home/rowan/scripts/i3-shell/i3-shell.sh"
       , normalBorderColor  = "#cccccc"
       , focusedBorderColor = "#0080b0"
       , workspaces = myWorkspaces
@@ -34,13 +34,13 @@ main = do
       , logHook = dynamicLogWithPP xmobarPP
                       { ppOutput = hPutStrLn xmproc
                       --, ppTitle = xmobarColor "green" "" . shorten 0 --50
-                      , ppTitle = xmobarColor "green" "" . (\s->"Moon")
+                      , ppTitle = xmobarColor "green" "" . (\s->"reflect")
                       , ppUrgent = xmobarColor "yellow" "red" . wrap ">" "<" . xmobarStrip
                       }
       } `additionalKeys` (myKeys)
 
 myKeys =
-      [ ((mod1Mask .|. shiftMask, xK_z), spawn "/home/rowan/documents/code/scripts/lock.sh")
+      [ ((mod1Mask .|. shiftMask, xK_z), spawn "/home/rowan/scripts/lock.sh")
       , ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s")
       , ((0, xK_Print), spawn "scrot")
       ] ++ [
@@ -52,12 +52,12 @@ myKeys =
       ] ++ [
         ((mod1Mask .|. shiftMask, xK_i),
          (do
-             spawnOn "1" "chromium"
-             spawnOn "2" "urxvt -name autofocus --hold -e zsh -c 'vim /home/rowan/autofocus-home.md'"
+             spawnOn "1" "firefox"
+             --spawnOn "2" "urxvt -name autofocus --hold -e zsh -c 'vim /home/rowan/autofocus-home.md'"
              spawnOn "3" "urxvt -name mainterm --hold"
              --spawnOn "4" "xournal /home/rowan/documents/ideas/drawings/template.xoj"
              spawnOn "5" "urxvt --hold -e 'alsamixer'"
-             spawnOn "-" "freeplane"
+             --spawnOn "-" "freeplane"
          ))
       ] ++ [
         ((mod1Mask, xK_f), (sendMessage $ Toggle NBFULL))
@@ -69,7 +69,7 @@ mWManager = composeAll . concat $
             [ [manageHook defaultConfig]
             , [manageDocks]
             -- windows that should be sent to a workspace
-            , [className =? "Chromium"    --> doShift "1"]
+            , [className =? "Firefox"    --> doShift "1"]
             , [resource =? "autofocus"    --> doShift "2"]
             , [resource =? "mainterm"     --> doShift "3"]
             , [className =? "inkscape"     --> doShift "4"]

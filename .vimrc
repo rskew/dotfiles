@@ -13,7 +13,6 @@ nnoremap <leader>n :NERDTree
 let NERDTreeShowLineNumbers=1
 autocmd FileType nerdtree setlocal relativenumber
 set clipboard=unnamed
-set clipboard=unnamedplus
 set noerrorbells
 set vb t_vb=
 
