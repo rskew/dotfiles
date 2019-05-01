@@ -1,20 +1,19 @@
-# Change to path to scripts
+# TODO: configure this in xmonad.hs
+# https://superuser.com/questions/389737/how-do-you-make-volume-keys-and-mute-key-work-in-xmonad
 
-
-# Need to make brightness file writable
-"/home/rowan/scripts/brightness-increase.sh"
+"xbacklight -inc 6 -time 0"
    XF86MonBrightnessUp
 
-"/home/rowan/scripts/brightness-decrease.sh"
+"xbacklight -dec 6 -time 0"
    XF86MonBrightnessDown
 
-"/home/rowan/scripts/volume-increase.sh"
+"amixer set Master playback 2%+"
    XF86AudioRaiseVolume
 
-"/home/rowan/scripts/volume-decrease.sh"
+"amixer set Master playback 2%-"
    XF86AudioLowerVolume
 
-"/home/rowan/scripts/volume-mute.sh"
+"amixer sset Master toggle"
    XF86AudioMute
 
 "/home/rowan/scripts/setup_external_monitor.sh"

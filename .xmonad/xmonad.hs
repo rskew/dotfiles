@@ -22,7 +22,7 @@ main = do
   xmproc <- spawnPipe "xmobar /home/rowan/.xmobarrc"
   xmonad $ withUrgencyHook NoUrgencyHook $ docks defaultConfig
       { borderWidth        = 3
-      , terminal           = "urxvt"--"/home/rowan/scripts/i3-shell/i3-shell.sh"
+      , terminal           = "urxvt -cd \"$PWD\""
       , normalBorderColor  = "#cccccc"
       , focusedBorderColor = "#0080b0"
       , workspaces = myWorkspaces
@@ -34,7 +34,7 @@ main = do
       , logHook = dynamicLogWithPP xmobarPP
                       { ppOutput = hPutStrLn xmproc
                       --, ppTitle = xmobarColor "green" "" . shorten 0 --50
-                      , ppTitle = xmobarColor "green" "" . (\s->"reflect")
+                      , ppTitle = xmobarColor "green" "" . (\s->"externalise, reflect")
                       , ppUrgent = xmobarColor "yellow" "red" . wrap ">" "<" . xmobarStrip
                       }
       } `additionalKeys` (myKeys)
@@ -57,7 +57,7 @@ myKeys =
              spawnOn "3" "urxvt -name mainterm --hold"
              --spawnOn "4" "xournal /home/rowan/documents/ideas/drawings/template.xoj"
              spawnOn "5" "urxvt --hold -e 'alsamixer'"
-             --spawnOn "-" "freeplane"
+             spawnOn "-" "freeplane"
          ))
       ] ++ [
         ((mod1Mask, xK_f), (sendMessage $ Toggle NBFULL))
