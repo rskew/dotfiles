@@ -1,5 +1,5 @@
 ﻿###
-###  vlc 3.0.4
+###  vlc 3.0.8
 ###
 
 ###
@@ -1242,7 +1242,7 @@ qt-privacy-ask=0
 #sout-avi-subject=
 
 # Encoder (string)
-#sout-avi-encoder=VLC Media Player - 3.0.4 Vetinari
+#sout-avi-encoder=VLC Media Player - 3.0.8 Vetinari
 
 # Keywords (string)
 #sout-avi-keywords=
@@ -1844,6 +1844,29 @@ qt-privacy-ask=0
 # Password (string)
 #sout-rtsp-pwd=
 
+[stream_out_chromecast] # Chromecast stream output
+
+# ? (string)
+#sout-chromecast-ip=
+
+# ? (integer)
+#sout-chromecast-port=8009
+
+# ? (boolean)
+#sout-chromecast-video=1
+
+# HTTP port (integer)
+#sout-chromecast-http-port=8010
+
+# Performance warning (integer)
+#sout-chromecast-show-perf-warning=1
+
+# Enable Audio passthrough (boolean)
+#sout-chromecast-audio-passthrough=0
+
+# Conversion quality (integer)
+#sout-chromecast-conversion-quality=1
+
 [display] # Display stream output
 
 # Enable audio (boolean)
@@ -2118,6 +2141,9 @@ qt-privacy-ask=0
 # Advanced options (string)
 #sout-avformat-options=
 
+# Reset timestamps (boolean)
+#sout-avformat-reset-ts=0
+
 [image] # Image demuxer
 
 # ES ID (integer)
@@ -2172,6 +2198,15 @@ qt-privacy-ask=0
 
 # Check packets continuity counter (boolean)
 #ts-cc-check=1
+
+# Only create ES on program sending data (boolean)
+#ts-pmtfix-waitdata=1
+
+# Try to generate PAT/PMT if missing (boolean)
+#ts-patfix=1
+
+# Try to fix too early PCR (or late DTS) (boolean)
+#ts-pcr-offsetfix=1
 
 [demuxdump] # File dumper
 
@@ -2991,7 +3026,7 @@ qt-privacy-ask=0
 #prefetch-buffer-size=16384
 
 # Read size (integer)
-#prefetch-read-size=16384
+#prefetch-read-size=16777216
 
 # Seek threshold (integer)
 #prefetch-seek-threshold=16384
@@ -3655,7 +3690,7 @@ qt-privacy-ask=0
 #preparse-timeout=5000
 
 # Allow metadata network access (boolean)
-metadata-network-access=1
+#metadata-network-access=0
 
 # Subdirectory behavior (string)
 #recursive=collapse
@@ -3712,10 +3747,10 @@ metadata-network-access=1
 #key-leave-fullscreen=Esc
 
 # Play/Pause (string)
-global-key-play-pause=Media Play Pause
+#global-key-play-pause=
 
 # Play/Pause (string)
-key-play-pause=Media Play Pause
+#key-play-pause=Space	Media Play Pause
 
 # Pause only (string)
 #global-key-pause=
@@ -3760,13 +3795,13 @@ key-play-pause=Media Play Pause
 #key-rate-slower-fine=[
 
 # Next (string)
-global-key-next=Media Next Track
+#global-key-next=
 
 # Next (string)
 #key-next=n	Media Next Track
 
 # Previous (string)
-global-key-prev=Media Prev Track
+#global-key-prev=
 
 # Previous (string)
 #key-prev=p	Media Prev Track

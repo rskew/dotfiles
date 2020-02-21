@@ -34,6 +34,8 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     yaml
+     shell-scripts
      ruby
      purescript
      graphviz
@@ -59,7 +61,7 @@ values."
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
      spell-checking
-     ;; syntax-checking
+     syntax-checking
      ;; version-control
      clojure
      ;org
@@ -68,6 +70,7 @@ values."
      (extra-langs :variables julia-mode matlab-mode)
      git
      ipython-notebook
+     (agda :variables agda-mode-path "/nix/store/ksgna17lb00kcka3clh6ddimlvx1mgxv-Agda-2.5.4.1-data/share/ghc-8.4.4/x86_64-linux-ghc-8.4.4/Agda-2.5.4.1/emacs-mode/agda2-mode.el")
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -369,8 +372,6 @@ you should place your code here."
   (add-to-list 'auto-mode-alist '("\\.pl\\'" . prolog-mode))
   (add-to-list 'auto-mode-alist '("\\.dot\\'" . graphvis-dot-mode))
 
-  (setq clojure-enable-fancify-symbols t)
-
   ;; bind the 'e' key to evaluate the current expression in file types
   ;; that support running an interpreter in spacemacs.
   (defun evaluate-plural-key-sequence ()
@@ -408,18 +409,6 @@ you should place your code here."
                            ("melpa" . "https://melpa.org/packages/")))
   (package-initialize)
 
-
-  ;(require 'clang-format)
-  ;(global-set-key (kbd "C-c C-f") 'clang-format-buffer)
-  ;(setq clang-format-style-option "llvm")
-
-  ;(defun is-cpp (filename)
-  ;  (let ((extension (file-name-extension filename)))
-  ;    (cond ((string-equal extension "cpp") t)
-  ;          ((string-equal extension "h") t)
-  ;          (t nil))))
-
-  ;(add-hook 'before-save-hook '(if (is-cpp buffer-file-name) (clang-format-buffer) nil))
 
   ;; Set $DICPATH to "$HOME/Library/Spelling" for hunspell.
   (setenv
@@ -481,10 +470,19 @@ you should place your code here."
               (psc-ide-mode)
               (company-mode)
               (flycheck-mode)
-              (turn-on-purescript-indentation)))
+              (turn-on-purescript-indentation)
+              ;(customize-set-variable 'psc-ide-flycheck-ignored-error-codes '("ImplicitImport"))
+              ))
 
   ;; global activation of the unicode symbol completion
   (add-to-list 'company-backends 'company-math-symbols-unicode)
+
+  ;; pylint wont find a remote pylintrc :/
+  ;(setq flycheck-pylintrc "/home/rowan/silverpond/powercor/tree_growth/.pylintrc")
+
+  ;; speed up tramp
+  (setq tramp-auto-save-directory "~/tmp/tramp/")
+  (setq tramp-chunksize 2000)
 
   )
 
@@ -506,9 +504,9 @@ you should place your code here."
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (haskell-emacs orgit magithub magit-gitflow magit-popup evil-magit magit powerline parent-mode projectile flx highlight transient smartparens iedit anzu evil goto-chg undo-tree deferred hydra pkg-info epl bind-map bind-key packed spinner f dash s helm avy helm-core async popup company-math rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby psci purescript-mode psc-ide unfill mwim helm-company helm-c-yasnippet fuzzy company-web web-completion-data company-tern company-statistics company-emacs-eclim company-dcd ivy flycheck-dmd-dub company-cabal company-anaconda clojure-snippets auto-yasnippet ac-ispell py-yapf xclip auto-complete websocket ein ediprolog danneskjold-theme klere-theme py-autopep8 jtags flyspell-correct-helm flyspell-correct auto-dictionary d-mode clang-format yapfify web-mode web-beautify thrift tern tagedit stan-mode smeargle slim-mode scss-mode scad-mode sass-mode qml-mode pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements ox-gfm org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mmm-mode matlab-mode markdown-toc markdown-mode ghub+ apiwrap livid-mode skewer-mode simple-httpd live-py-mode julia-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc intero flycheck hy-mode dash-functional htmlize hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-css-scss haskell-snippets haml-mode graphviz-dot-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md git-commit ghub treepy graphql with-editor emmet-mode eclim cython-mode csv-mode company-ghci company-ghc ghc company haskell-mode coffee-mode cmm-mode clj-refactor inflections edn multiple-cursors paredit yasnippet peg cider-eval-sexp-fu cider sesman queue clojure-mode arduino-mode anaconda-mode pythonic evil-visual-mark-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
- '(psc-ide-add-import-on-completion t)
- '(psc-ide-rebuild-on-save nil))
+    (flycheck-pos-tip pos-tip flycheck-haskell flycheck-pycheckers python-pytest flycheck-ini-pyinilint flycheck-mypy flymake-python-pyflakes pylint yaml-mode nix-mode insert-shebang fish-mode company-shell haskell-emacs orgit magithub magit-gitflow magit-popup evil-magit magit powerline parent-mode projectile flx highlight transient smartparens iedit anzu evil goto-chg undo-tree deferred hydra pkg-info epl bind-map bind-key packed spinner f dash s helm avy helm-core async popup company-math rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby psci purescript-mode psc-ide unfill mwim helm-company helm-c-yasnippet fuzzy company-web web-completion-data company-tern company-statistics company-emacs-eclim company-dcd ivy flycheck-dmd-dub company-cabal company-anaconda clojure-snippets auto-yasnippet ac-ispell py-yapf xclip auto-complete websocket ein ediprolog danneskjold-theme klere-theme py-autopep8 jtags flyspell-correct-helm flyspell-correct auto-dictionary d-mode clang-format yapfify web-mode web-beautify thrift tern tagedit stan-mode smeargle slim-mode scss-mode scad-mode sass-mode qml-mode pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements ox-gfm org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mmm-mode matlab-mode markdown-toc markdown-mode ghub+ apiwrap livid-mode skewer-mode simple-httpd live-py-mode julia-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc intero flycheck hy-mode dash-functional htmlize hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-css-scss haskell-snippets haml-mode graphviz-dot-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md git-commit ghub treepy graphql with-editor emmet-mode eclim cython-mode csv-mode company-ghci company-ghc ghc company haskell-mode coffee-mode cmm-mode clj-refactor inflections edn multiple-cursors paredit yasnippet peg cider-eval-sexp-fu cider sesman queue clojure-mode arduino-mode anaconda-mode pythonic evil-visual-mark-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+ '(psc-ide-add-import-on-completion t t)
+ '(psc-ide-rebuild-on-save nil t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

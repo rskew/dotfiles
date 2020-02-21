@@ -26,13 +26,13 @@ Config { font = "xft:gallant12x22:size=14"
         , Run Com "/home/rowan/scripts/network-status-ipaddr.sh" [] "wifi-ipaddr" 30
 
         -- cpu activity monitor
-        , Run MultiCpu       [ "--template" , "cpu:<total0>|<total1>|<total2>|<total3>"
+        , Run MultiCpu       [ "--template" , "<autovbar>"
                              , "--Low"      , "50"         -- units: %
                              , "--High"     , "85"         -- units: %
                              , "--low"      , "green"
                              , "--normal"   , "orange"
                              , "--high"     , "red"
-                             ] 10
+                             ] 1
 
         -- cpu core temperature monitor
         , Run CoreTemp       [ "--template" , "<core0>°"
@@ -41,7 +41,7 @@ Config { font = "xft:gallant12x22:size=14"
                              , "--low"      , "green"
                              , "--normal"   , "orange"
                              , "--high"     , "red"
-                             ] 50
+                             ] 10
 
         -- memory usage monitor
         , Run Memory         [ "--template" ,"mem:<usedratio>%"
@@ -73,7 +73,7 @@ Config { font = "xft:gallant12x22:size=14"
                                        , "-O"	, "<fc=#dAA520>Charging</fc>"
                                        -- charged status
                                        , "-i"	, "<fc=#00f000>Charged</fc>"
-                             ] 50
+                             ] 20
 
         -- time and date indicator
         --   (%F = y-m-d date, %a = day of week, %T = h:m:s time)
@@ -89,5 +89,5 @@ Config { font = "xft:gallant12x22:size=14"
        , sepChar = "%"
        , alignSep = "}{"
        -- <fc=#f000ff>%wifi-ipaddr%</fc> 
-       , template = "%StdinReader% }{ %multicpu%:%coretemp% %memory% %swap% %disku% %wifi-ssid% %battery% <fc=#00f0ff>%date%</fc>"
+       , template = "%StdinReader% }{ %multicpu%%coretemp% %memory% %swap% %disku% %wifi-ssid% %battery% <fc=#00f0ff>%date%</fc>"
        }
