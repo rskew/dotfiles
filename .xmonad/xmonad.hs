@@ -35,7 +35,7 @@ main = do
       , logHook = dynamicLogWithPP xmobarPP
                       { ppOutput = hPutStrLn xmproc
                       --, ppTitle = xmobarColor "green" "" . shorten 0 --50
-                      , ppTitle = xmobarColor "green" "" . (\s->"")
+                      , ppTitle = xmobarColor "green" "" . (\s->"blink")
                       , ppUrgent = xmobarColor "yellow" "red" . wrap ">" "<" . xmobarStrip
                       }
       } `additionalKeys` (myKeys)
@@ -55,7 +55,7 @@ myKeys =
          (do
              spawnOn "1" "firefox"
              spawnOn "3" "urxvt -name mainterm --hold"
-             spawnOn "5" "urxvt --hold -e 'alsamixer'"
+             spawnOn "5" "urxvt --hold -e 'pulsemixer'"
          ))
       ] ++ [
         ((mod1Mask, xK_f), (sendMessage $ Toggle NBFULL))
@@ -70,7 +70,7 @@ mWManager = composeAll . concat $
             , [className =? "Firefox"     --> doShift "1"]
             , [resource =? "autofocus"    --> doShift "2"]
             , [resource =? "mainterm"     --> doShift "3"]
-            , [title =? "alsamixer"       --> doShift "5"]
+            , [title =? "pulsemixer"       --> doShift "5"]
             , [className =? "Freeplane"   --> doShift "-"]
             -- Below gets chrome_app_list to properly float
             , [(stringProperty "WM_WINDOW_ROLE") =? "bubble"  --> doFloat]

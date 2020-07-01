@@ -10,8 +10,8 @@ Config { font = "xft:gallant12x22:size=14"
        , lowerOnStart = True
        , hideOnStart = False
        , commands = -- weather monitor
-        [ Run Weather "YMML" [ "--template", "<skyCondition> | <fc=#4682B4><tempC></fc>°C | <fc=#4682B4><rh></fc>% | <fc=#4682B4><pressure></fc>hPa"
-                             ] 36000
+        --[ Run Weather "YMML" [ "--template", "<skyCondition> | <fc=#4682B4><tempC></fc>°C | <fc=#4682B4><rh></fc>% | <fc=#4682B4><pressure></fc>hPa"
+        --                     ] 36000
 
         -- network activity monitor (dynamic interface resolution)
         --, Run DynNetwork     [ "--template" , "<dev>: ip rss <tx>kB/s|<rx>kB/s"
@@ -21,17 +21,20 @@ Config { font = "xft:gallant12x22:size=14"
         --, "--normal"   , "orange"
         --, "--high"     , "red"
         --] 10
-        , Run Com "/home/rowan/scripts/network-status-ssid.sh" [] "wifi-ssid" 30
-        --, Run Com "/home/rowan/scripts/network-status-rss.sh" [] "wifi-rss" 30
+        [ Run Com "/home/rowan/scripts/network-status-ssid.sh" [] "wifi-ssid" 30
+        , Run Com "/home/rowan/scripts/network-status-rss.sh" [] "wifi-rss" 30
         , Run Com "/home/rowan/scripts/network-status-ipaddr.sh" [] "wifi-ipaddr" 30
+
+        -- bluetooth connectivity/headset status
+        , Run Com "/home/rowan/scripts/bluetooth-status.sh" [] "bluetooth-status" 10
 
         -- cpu activity monitor
         , Run MultiCpu       [ "--template" , "<autovbar>"
-                             , "--Low"      , "50"         -- units: %
-                             , "--High"     , "85"         -- units: %
-                             , "--low"      , "green"
-                             , "--normal"   , "orange"
-                             , "--high"     , "red"
+                             --, "--Low"      , "50"         -- units: %
+                             --, "--High"     , "85"         -- units: %
+                             --, "--low"      , "green"
+                             --, "--normal"   , "orange"
+                             --, "--high"     , "red"
                              ] 1
 
         -- cpu core temperature monitor
@@ -89,5 +92,5 @@ Config { font = "xft:gallant12x22:size=14"
        , sepChar = "%"
        , alignSep = "}{"
        -- <fc=#f000ff>%wifi-ipaddr%</fc> 
-       , template = "%StdinReader% }{ %multicpu%%coretemp% %memory% %swap% %disku% %wifi-ssid% %battery% <fc=#00f0ff>%date%</fc>"
+       , template = "%StdinReader% }{ %multicpu%%coretemp% %memory% %swap% %disku% %wifi-ssid% <fc=#00f0ff>%bluetooth-status%</fc> %battery% <fc=#00f0ff>%date%</fc>"
        }

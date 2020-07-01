@@ -34,6 +34,8 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     sql
+     nginx
      yaml
      shell-scripts
      ruby
@@ -64,13 +66,13 @@ values."
      syntax-checking
      ;; version-control
      clojure
-     ;org
+     org
+     spacemacs-org
      markdown
      java
      (extra-langs :variables julia-mode matlab-mode)
      git
      ipython-notebook
-     (agda :variables agda-mode-path "/nix/store/ksgna17lb00kcka3clh6ddimlvx1mgxv-Agda-2.5.4.1-data/share/ghc-8.4.4/x86_64-linux-ghc-8.4.4/Agda-2.5.4.1/emacs-mode/agda2-mode.el")
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -484,6 +486,21 @@ you should place your code here."
   (setq tramp-auto-save-directory "~/tmp/tramp/")
   (setq tramp-chunksize 2000)
 
+  ; what is this for?
+  ;(use-package evil-org
+  ;  :ensure t
+  ;  :after org
+  ;  :config
+  ;  (add-hook 'org-mode-hook 'evil-org-mode)
+  ;  (add-hook 'evil-org-mode-hook
+  ;            (lambda ()
+  ;              (evil-org-set-key-theme)))
+  ;  (require 'evil-org-agenda)
+  ;  (evil-org-agenda-set-keys))
+
+  (setq-default dotspacemacs-configuration-layers '(
+    (colors :variables colors-enable-nyan-cat-progress-bar t)))
+
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -497,14 +514,13 @@ you should place your code here."
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(custom-enabled-themes (quote (klere)))
  '(custom-safe-themes
    (quote
     ("eedf8564559559e709f1fb7745eb5a6eaadd4f0d129cc5cb6782387d3973c919" "565aa482e486e2bdb9c3cf5bfb14d1a07c4a42cfc0dc9d6a14069e53b6435b56" default)))
  '(evil-want-Y-yank-to-eol nil)
  '(package-selected-packages
    (quote
-    (flycheck-pos-tip pos-tip flycheck-haskell flycheck-pycheckers python-pytest flycheck-ini-pyinilint flycheck-mypy flymake-python-pyflakes pylint yaml-mode nix-mode insert-shebang fish-mode company-shell haskell-emacs orgit magithub magit-gitflow magit-popup evil-magit magit powerline parent-mode projectile flx highlight transient smartparens iedit anzu evil goto-chg undo-tree deferred hydra pkg-info epl bind-map bind-key packed spinner f dash s helm avy helm-core async popup company-math rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby psci purescript-mode psc-ide unfill mwim helm-company helm-c-yasnippet fuzzy company-web web-completion-data company-tern company-statistics company-emacs-eclim company-dcd ivy flycheck-dmd-dub company-cabal company-anaconda clojure-snippets auto-yasnippet ac-ispell py-yapf xclip auto-complete websocket ein ediprolog danneskjold-theme klere-theme py-autopep8 jtags flyspell-correct-helm flyspell-correct auto-dictionary d-mode clang-format yapfify web-mode web-beautify thrift tern tagedit stan-mode smeargle slim-mode scss-mode scad-mode sass-mode qml-mode pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements ox-gfm org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mmm-mode matlab-mode markdown-toc markdown-mode ghub+ apiwrap livid-mode skewer-mode simple-httpd live-py-mode julia-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc intero flycheck hy-mode dash-functional htmlize hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-css-scss haskell-snippets haml-mode graphviz-dot-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md git-commit ghub treepy graphql with-editor emmet-mode eclim cython-mode csv-mode company-ghci company-ghc ghc company haskell-mode coffee-mode cmm-mode clj-refactor inflections edn multiple-cursors paredit yasnippet peg cider-eval-sexp-fu cider sesman queue clojure-mode arduino-mode anaconda-mode pythonic evil-visual-mark-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+    (terraform-mode sql-indent nginx-mode confluence evil-org flycheck-pos-tip pos-tip flycheck-haskell flycheck-pycheckers python-pytest flycheck-ini-pyinilint flycheck-mypy flymake-python-pyflakes pylint yaml-mode nix-mode insert-shebang fish-mode company-shell haskell-emacs orgit magithub magit-gitflow magit-popup evil-magit magit powerline parent-mode projectile flx highlight transient smartparens iedit anzu evil goto-chg undo-tree deferred hydra pkg-info epl bind-map bind-key packed spinner f dash s helm avy helm-core async popup company-math rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby psci purescript-mode psc-ide unfill mwim helm-company helm-c-yasnippet fuzzy company-web web-completion-data company-tern company-statistics company-emacs-eclim company-dcd ivy flycheck-dmd-dub company-cabal company-anaconda clojure-snippets auto-yasnippet ac-ispell py-yapf xclip auto-complete websocket ein ediprolog danneskjold-theme klere-theme py-autopep8 jtags flyspell-correct-helm flyspell-correct auto-dictionary d-mode clang-format yapfify web-mode web-beautify thrift tern tagedit stan-mode smeargle slim-mode scss-mode scad-mode sass-mode qml-mode pyvenv pytest pyenv-mode py-isort pug-mode pip-requirements ox-gfm org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mmm-mode matlab-mode markdown-toc markdown-mode ghub+ apiwrap livid-mode skewer-mode simple-httpd live-py-mode julia-mode json-mode json-snatcher json-reformat js2-refactor js2-mode js-doc intero flycheck hy-mode dash-functional htmlize hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-css-scss haskell-snippets haml-mode graphviz-dot-mode gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md git-commit ghub treepy graphql with-editor emmet-mode eclim cython-mode csv-mode company-ghci company-ghc ghc company haskell-mode coffee-mode cmm-mode clj-refactor inflections edn multiple-cursors paredit yasnippet peg cider-eval-sexp-fu cider sesman queue clojure-mode arduino-mode anaconda-mode pythonic evil-visual-mark-mode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump diminish define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
  '(psc-ide-add-import-on-completion t t)
  '(psc-ide-rebuild-on-save nil t))
 (custom-set-faces
@@ -512,4 +528,7 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(org-level-1 ((t (:foreground "magenta" :weight bold :height 1.2))))
+ '(org-level-2 ((t (:inherit bold :foreground "gold" :weight bold :height 1.1))))
+ '(org-level-3 ((t (:inherit bold :foreground "deep sky blue" :weight normal :height 1.1))))
+ '(org-level-4 ((t (:foreground "chocolate" :weight normal)))))
