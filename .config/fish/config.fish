@@ -1,6 +1,7 @@
 alias em="emacsclient -t"
 
 set -gx PATH $HOME/scripts $PATH
+set -gx PATH $HOME/bin $PATH
 
 alias rm='rm -i'
 
@@ -45,3 +46,5 @@ alias jupyterlab_lidar='ulimit -v 6000000; jupyter lab'
 
 alias gerp=grep
 alias grpe=grep
+
+eval (direnv hook fish)
