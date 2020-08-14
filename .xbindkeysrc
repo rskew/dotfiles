@@ -1,10 +1,10 @@
 # TODO: configure this in xmonad.hs
 # https://superuser.com/questions/389737/how-do-you-make-volume-keys-and-mute-key-work-in-xmonad
 
-"brightnessctl s +150"
+"brightnessctl s +50"
    XF86MonBrightnessUp
 
-"brightnessctl s 150-"
+"brightnessctl s 50-"
    XF86MonBrightnessDown
 
 "amixer set Master playback 2%+"

@@ -11,7 +11,7 @@ import           XMonad.Hooks.UrgencyHook
 import           XMonad.Layout.MultiToggle
 import           XMonad.Layout.MultiToggle.Instances
 import qualified XMonad.StackSet                     as W
-import           XMonad.Util.EZConfig                (additionalKeys)
+import           XMonad.Util.EZConfig                (additionalKeys, removeKeys)
 import           XMonad.Util.Run                     (spawnPipe)
 
 myExtraWorkspaces = [(xK_0, "0"),(xK_minus, "-"),(xK_equal, "=")]
@@ -39,6 +39,7 @@ main = do
                       , ppUrgent = xmobarColor "yellow" "red" . wrap ">" "<" . xmobarStrip
                       }
       } `additionalKeys` (myKeys)
+      `removeKeys` nonKeys
 
 myKeys =
       [ ((mod1Mask .|. shiftMask, xK_z), spawn "/home/rowan/scripts/lock.sh")
@@ -59,6 +60,13 @@ myKeys =
          ))
       ] ++ [
         ((mod1Mask, xK_f), (sendMessage $ Toggle NBFULL))
+      ] ++ [
+        ((mod1Mask .|. shiftMask, xK_space), windows W.swapMaster)
+      ]
+
+nonKeys =
+      [
+        (mod1Mask, xK_Return)
       ]
 
 

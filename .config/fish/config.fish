@@ -48,3 +48,11 @@ alias gerp=grep
 alias grpe=grep
 
 eval (direnv hook fish)
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+# Except for the 'command -v conda' which Rowan added to stop errors on new shell
+command -v conda && eval (eval /home/rowan/.conda/bin/conda "shell.fish" "hook" $argv)
+# <<< conda initialize <<<
+
+alias vim=vim-custom
