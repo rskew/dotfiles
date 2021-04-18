@@ -35,7 +35,7 @@ main = do
       , logHook = dynamicLogWithPP xmobarPP
                       { ppOutput = hPutStrLn xmproc
                       --, ppTitle = xmobarColor "green" "" . shorten 0 --50
-                      , ppTitle = xmobarColor "green" "" . (\s->"blink")
+                      , ppTitle = xmobarColor "green" "" . (\s->"interfaces")
                       , ppUrgent = xmobarColor "yellow" "red" . wrap ">" "<" . xmobarStrip
                       }
       } `additionalKeys` (myKeys)

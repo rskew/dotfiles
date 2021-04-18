@@ -1,3 +1,4 @@
+! Capslock as control
 clear control
 clear lock
 add control = Caps_Lock Control_L Control_R
